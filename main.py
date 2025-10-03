@@ -7,15 +7,19 @@ def mask_by_color_range(img, lower, upper):
     return mask
 
 
-img = cv.imread('luffa/luffa3.jpg')
+img = cv.imread('luffa/luffa5.jpg')
 if img is not None:
-    lower_blue = np.array([30,40,50])
+    img = cv.resize(img, (800, 600))
+
+    lower_blue = np.array([30,40,0])
     upper_blue = np.array([70,255,255])
 # Threshold the HSV image to get only blue colors
     mask = mask_by_color_range(img, lower_blue,upper_blue)
-    mask = cv.resize(mask, (800, 600))
-
     cv.imshow('image', mask)
+    blur = cv.bilateralFilter(img, 9, 90, 90)
+    mask2 = mask_by_color_range(blur, lower_blue, upper_blue)
+
+    cv.imshow('image2', mask2)
     key = cv.waitKey(0)
 
     
